@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "488694932774",
+    "firebase_url": "https://blog-c3aff.firebaseio.com",
+    "project_id": "blog-c3aff",
+    "storage_bucket": "blog-c3aff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488694932774:android:fff3fe5762116d22f34de7",
+        "android_client_info": {
+          "package_name": "com.example.blog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488694932774-09075lhgo2ngh067kockj1vv01vlo17c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsBHNy5pUL_m3V55Nar14t-JGu7kgg8v0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488694932774-09075lhgo2ngh067kockj1vv01vlo17c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
