@@ -1,5 +1,6 @@
 import 'package:blog/db/PostService.dart';
 import 'package:blog/models/post.dart';
+import 'package:blog/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class AddPost extends StatefulWidget {
@@ -12,7 +13,7 @@ class _AddPostState extends State<AddPost> {
   Post post;
 
   @override
-  void initState(){
+  void initState() {
     post = Post(0, "", "");
   }
 
@@ -30,14 +31,16 @@ class _AddPostState extends State<AddPost> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                decoration:InputDecoration(
+                decoration: InputDecoration(
                   labelText: "Post title",
                   border: OutlineInputBorder(),
                 ),
                 onSaved: (val) => post.title = val,
-                validator: (val){
-                  if(val.isEmpty){
+                validator: (val) {
+                  if (val.isEmpty) {
                     return "title field cannot be empty";
+                  } else if (val.length > 16) {
+                    return "title cannot have more than 16 characters ";
                   }
                 },
               ),
@@ -50,8 +53,8 @@ class _AddPostState extends State<AddPost> {
                   border: OutlineInputBorder(),
                 ),
                 onSaved: (val) => post.body = val,
-                validator: (val){
-                  if(val.isEmpty){
+                validator: (val) {
+                  if (val.isEmpty) {
                     return "body field cannot be empty";
                   }
                 },
@@ -60,10 +63,15 @@ class _AddPostState extends State<AddPost> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        insertPost();
-      },
-        child: Icon(Icons.add, color: Colors.white,),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          insertPost();
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
         backgroundColor: Colors.red,
         tooltip: "add a post",
       ),
@@ -72,13 +80,12 @@ class _AddPostState extends State<AddPost> {
 
   void insertPost() {
     final FormState form = formkey.currentState;
-    if(form.validate()){
+    if (form.validate()) {
       print('interted');
       form.save();
       form.reset();
       post.date = DateTime.now().millisecondsSinceEpoch;
       PostService postService = PostService(post.toMap());
-
 
       postService.addPost();
     }
