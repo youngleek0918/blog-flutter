@@ -3,20 +3,23 @@ import 'package:blog/models/post.dart';
 import 'package:blog/screens/home.dart';
 import 'package:flutter/material.dart';
 
-class AddPost extends StatefulWidget {
+class EditPost extends StatefulWidget {
+  final Post post;
+
+  EditPost(this.post);
+
   @override
-  _AddPostState createState() => _AddPostState();
+  _EditPostState createState() => _EditPostState();
 }
 
-class _AddPostState extends State<AddPost> {
+class _EditPostState extends State<EditPost> {
   final GlobalKey<FormState> formkey = new GlobalKey();
-  Post post = Post(0, " ", " ");
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("add post"),
+        title: Text("edit post"),
         elevation: 0.0,
       ),
       body: Form(
@@ -26,9 +29,10 @@ class _AddPostState extends State<AddPost> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  initialValue: widget.post.title,
                   decoration: InputDecoration(
                       labelText: "Post tilte", border: OutlineInputBorder()),
-                  onSaved: (val) => post.title = val,
+                  onSaved: (val) => widget.post.title = val,
                   validator: (val) {
                     if (val.isEmpty) {
                       return "title field cant be empty";
@@ -41,9 +45,10 @@ class _AddPostState extends State<AddPost> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  initialValue: widget.post.body,
                   decoration: InputDecoration(
                       labelText: "Post body", border: OutlineInputBorder()),
-                  onSaved: (val) => post.body = val,
+                  onSaved: (val) => widget.post.body = val,
                   validator: (val) {
                     if (val.isEmpty) {
                       return "body field cant be empty";
@@ -56,15 +61,16 @@ class _AddPostState extends State<AddPost> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           insertPost();
-          Navigator.pop(context);
-//        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+//        Navigator.pop(context);
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
         },
         child: Icon(
-          Icons.add,
+          Icons.edit,
           color: Colors.white,
         ),
         backgroundColor: Colors.red,
-        tooltip: "add a post",
+        tooltip: "exit a post",
       ),
     );
   }
@@ -74,9 +80,9 @@ class _AddPostState extends State<AddPost> {
     if (form.validate()) {
       form.save();
       form.reset();
-      post.date = DateTime.now().millisecondsSinceEpoch;
-      PostService postService = PostService(post.toMap());
-      postService.addPost();
+      widget.post.date = DateTime.now().millisecondsSinceEpoch;
+      PostService postService = PostService(widget.post.toMap());
+      postService.updatePost();
     }
   }
 }
